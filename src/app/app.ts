@@ -14,7 +14,7 @@ export class App {
   private apiUrl = 'https://esbait.onrender.com/api/analizar';
 
   textoCorreo: string = '';
-  resultadoJson: any = null;
+  resultado: any = null;
   cargando: boolean = false;
   errorMensaje: string = '';
 
@@ -25,15 +25,14 @@ export class App {
 
     this.cargando = true;
     this.errorMensaje = '';
-    this.resultadoJson = null;
-    this.cdr.detectChanges(); // Actualiza el botón a "Analizando..."
+    this.resultado = null;
+    this.cdr.detectChanges();
 
     this.http.post(this.apiUrl, { texto: this.textoCorreo }).subscribe({
       next: (respuesta) => {
-        console.log('Respuesta recibida:', respuesta);
-        this.resultadoJson = respuesta;
+        this.resultado = respuesta;
         this.cargando = false;
-        this.cdr.detectChanges(); // <-- Esto fuerza a que el JSON aparezca debajo de los botones al instante
+        this.cdr.detectChanges();
       },
       error: (err) => {
         this.errorMensaje = 'Error al conectar con el servidor.';
@@ -45,7 +44,7 @@ export class App {
   }
 
   cargarEjemploPhishing() {
-    this.textoCorreo = 'Su cuenta será suspendida. Verifique sus datos inmediatamente mediante el siguiente enlace.';
+    this.textoCorreo = 'Su cuenta será suspendida. Verifique sus datos inmediatamente mediante el siguiente enlace http://verificacion-urgente.com';
     this.cdr.detectChanges();
   }
 }

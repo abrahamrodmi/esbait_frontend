@@ -1,12 +1,12 @@
-<main style="max-width: 750px; margin: 2rem auto; font-family: Arial, sans-serif; padding: 1rem;">
-  <h2>Detector de Correos de Phishing (Optimizado con Algoritmo Genético)</h2>
-  <p>Ingrese el contenido del correo electrónico para evaluar si es legítimo o posible phishing.</p>
+<main style="max-width: 750px; margin: 2rem auto; font-family: Arial, sans-serif; padding: 1rem; background-color: #ffffff; color: #000000;">
+  <h2>Detector de Correos de Phishing</h2>
+  <p>Ingrese el contenido del correo electrónico para evaluar si es legítimo o phishing.</p>
 
   <div style="margin-bottom: 1rem;">
     <textarea 
       [(ngModel)]="textoCorreo" 
       rows="6" 
-      style="width: 100%; padding: 0.75rem; font-size: 1rem;"
+      style="width: 100%; padding: 0.75rem; font-size: 1rem; box-sizing: border-box;"
       placeholder="Pegue o escriba aquí el texto del correo electrónico a analizar..."></textarea>
   </div>
 
@@ -20,22 +20,16 @@
   </div>
 
   @if (errorMensaje) {
-    <p style="color: red; font-weight: bold;">{{ errorMensaje }}</p>
+    <p style="color: red;">{{ errorMensaje }}</p>
   }
 
-  @if (resultadoJson) {
-    <section style="border: 1px solid #ccc; padding: 1rem; border-radius: 6px; background: #f9f9f9; margin-top: 1rem;">
-      <h3>Veredicto: 
-        <span [style.color]="resultadoJson.clasificacion === 'posible phishing' ? '#d9534f' : '#28a745'">
-          {{ resultadoJson.clasificacion | uppercase }} ({{ resultadoJson.probabilidad_phishing }}%)
-        </span>
-      </h3>
-      
-      <h4>Respuesta JSON:</h4>
-      <pre style="background: #1e1e1e; color: #00ff88; padding: 1rem; border-radius: 4px; overflow-x: auto;">{{ resultadoJson | json }}</pre>
-    </section>
+  @if (resultado) {
+    <div style="background-color: #ffffff; color: #000000; margin-top: 1rem; font-size: 1.05rem; line-height: 1.6;">
+      <p style="margin: 0;">Clasificación final del modelo: {{ resultado.veredicto }}</p>
+      <p style="margin: 0;">Probabilidad de ser legítimo: {{ resultado.probabilidad_legitimo }}</p>
+      <p style="margin: 0;">Probabilidad de ser phishing: {{ resultado.probabilidad_phishing }}</p>
+    </div>
   }
 </main>
-
 
 
