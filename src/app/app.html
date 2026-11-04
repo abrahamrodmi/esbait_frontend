@@ -1,35 +1,57 @@
-<main style="max-width: 750px; margin: 2rem auto; font-family: Arial, sans-serif; padding: 1rem; background-color: #ffffff; color: #000000;">
-  <h2>Detector de Correos de Phishing</h2>
-  <p>Ingrese el contenido del correo electrónico para evaluar si es legítimo o phishing.</p>
+<div class="page-wrapper">
+  <main class="main-card">
+    
+    <!-- Encabezado con insignia institucional/académica -->
+    <header class="card-header">
+      <span class="badge">Algoritmos Bioinspirados • AG + Regresión Logística</span>
+      <h1>Detector de Correos de Phishing</h1>
+      <p>Ingrese el cuerpo del correo electrónico para analizar su autenticidad mediante selección de características optimizada.</p>
+    </header>
 
-  <div style="margin-bottom: 1rem;">
-    <textarea 
-      [(ngModel)]="textoCorreo" 
-      rows="6" 
-      style="width: 100%; padding: 0.75rem; font-size: 1rem; box-sizing: border-box;"
-      placeholder="Pegue o escriba aquí el texto del correo electrónico a analizar..."></textarea>
-  </div>
-
-  <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
-    <button (click)="analizarCorreo()" [disabled]="cargando || !textoCorreo.trim()" style="padding: 0.6rem 1.2rem; cursor: pointer;">
-      {{ cargando ? 'Analizando...' : 'Analizar Correo' }}
-    </button>
-    <button (click)="cargarEjemploPhishing()" type="button" style="padding: 0.6rem 1.2rem; cursor: pointer;">
-      Cargar ejemplo de prueba
-    </button>
-  </div>
-
-  @if (errorMensaje) {
-    <p style="color: red;">{{ errorMensaje }}</p>
-  }
-
-  @if (resultado) {
-    <div style="background-color: #ffffff; color: #000000; margin-top: 1rem; font-size: 1.05rem; line-height: 1.6;">
-      <p style="margin: 0;">Clasificación final del modelo: {{ resultado.veredicto }}</p>
-      <p style="margin: 0;">Probabilidad de ser legítimo: {{ resultado.probabilidad_legitimo }}</p>
-      <p style="margin: 0;">Probabilidad de ser phishing: {{ resultado.probabilidad_phishing }}</p>
+    <!-- Área de entrada de texto -->
+    <div class="input-group">
+      <label for="correoInput">Contenido del correo electrónico</label>
+      <textarea 
+        id="correoInput"
+        [(ngModel)]="textoCorreo" 
+        rows="6" 
+        placeholder="Pegue o escriba aquí el texto del correo electrónico a evaluar..."></textarea>
     </div>
-  }
-</main>
+
+    <!-- Botones centrados y estéticos -->
+    <div class="button-group">
+      <button 
+        class="btn btn-primary" 
+        (click)="analizarCorreo()" 
+        [disabled]="cargando || !textoCorreo.trim()">
+        {{ cargando ? 'Analizando correo...' : 'Analizar Correo' }}
+      </button>
+
+      <button 
+        class="btn btn-secondary" 
+        (click)="cargarEjemploPhishing()" 
+        type="button">
+        Cargar ejemplo de prueba
+      </button>
+    </div>
+
+    <!-- Mensaje de error (si ocurre) -->
+    @if (errorMensaje) {
+      <div class="error-box">
+        {{ errorMensaje }}
+      </div>
+    }
+
+    <!-- Recuadro de resultados: Fondo blanco y letras negras debajo de la entrada -->
+    @if (resultado) {
+      <div class="result-box">
+        <p><strong>Clasificación final del modelo:</strong> {{ resultado.veredicto }}</p>
+        <p><strong>Probabilidad de ser legítimo:</strong> {{ resultado.probabilidad_legitimo }}</p>
+        <p><strong>Probabilidad de ser phishing:</strong> {{ resultado.probabilidad_phishing }}</p>
+      </div>
+    }
+
+  </main>
+</div>
 
 
