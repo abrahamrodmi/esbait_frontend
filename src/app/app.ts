@@ -3,6 +3,25 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
+interface ResultadoModelo {
+  id: string;
+  nombre: string;
+  veredicto: string;
+  probabilidad_legitimo: number;
+  probabilidad_phishing: number;
+}
+
+interface RespuestaAnalisis {
+  idioma_detectado: string;
+  resultados: ResultadoModelo[];
+  consenso: {
+    veredicto: string;
+    votos_phishing: number;
+    votos_legitimo: number;
+    total_modelos: number;
+  };
+}
+
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -14,7 +33,7 @@ export class App {
   private apiUrl = 'https://esbait.onrender.com/api/analizar';
 
   textoCorreo: string = '';
-  resultado: any = null;
+  resultado: RespuestaAnalisis | null = null;
   cargando: boolean = false;
   errorMensaje: string = '';
 
@@ -28,7 +47,7 @@ export class App {
     this.resultado = null;
     this.cdr.detectChanges();
 
-    this.http.post(this.apiUrl, { texto: this.textoCorreo }).subscribe({
+    this.http.post<RespuestaAnalisis>(this.apiUrl, { texto: this.textoCorreo }).subscribe({
       next: (respuesta) => {
         this.resultado = respuesta;
         this.cargando = false;

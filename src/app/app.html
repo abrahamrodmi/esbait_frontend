@@ -3,9 +3,9 @@
     
     <!-- Encabezado con insignia institucional/académica -->
     <header class="card-header">
-      <span class="badge">Algoritmos Bioinspirados • AG + Regresión Logística</span>
+      <span class="badge">Algoritmos Bioinspirados • AG + Regresión Logística (L1 / L2)</span>
       <h1>Detector de Correos de Phishing</h1>
-      <p>Ingrese el cuerpo del correo electrónico para analizar su autenticidad mediante selección de características optimizada.</p>
+      <p>Ingrese el cuerpo del correo electrónico para analizar su autenticidad mediante modelos optimizados con selección de características.</p>
     </header>
 
     <!-- Área de entrada de texto -->
@@ -45,9 +45,24 @@
     <!-- Recuadro de resultados: Fondo blanco y letras negras debajo de la entrada -->
     @if (resultado) {
       <div class="result-box">
-        <p><strong>Clasificación final del modelo:</strong> {{ resultado.veredicto }}</p>
-        <p><strong>Probabilidad de ser legítimo:</strong> {{ resultado.probabilidad_legitimo }}</p>
-        <p><strong>Probabilidad de ser phishing:</strong> {{ resultado.probabilidad_phishing }}</p>
+        <div class="consenso-header">
+          <p><strong>Consenso general ({{ resultado.consenso.votos_phishing }}/{{ resultado.consenso.total_modelos }} votos Phishing):</strong> {{ resultado.consenso.veredicto }}</p>
+          <p><strong>Idioma detectado:</strong> {{ resultado.idioma_detectado }}</p>
+        </div>
+
+        <hr class="divider" />
+
+        @for (modelo of resultado.resultados; track modelo.id; let last = $last) {
+          <div class="modelo-item">
+            <p class="modelo-titulo"><strong>{{ modelo.nombre }}</strong></p>
+            <p>Clasificación final del modelo: {{ modelo.veredicto }}</p>
+            <p>Probabilidad de ser legítimo: {{ modelo.probabilidad_legitimo.toFixed(2) }}%</p>
+            <p>Probabilidad de ser phishing: {{ modelo.probabilidad_phishing.toFixed(2) }}%</p>
+          </div>
+          @if (!last) {
+            <hr class="divider-light" />
+          }
+        }
       </div>
     }
 
